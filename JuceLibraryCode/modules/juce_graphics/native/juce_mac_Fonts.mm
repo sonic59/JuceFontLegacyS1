@@ -63,7 +63,7 @@ namespace CoreTextTypeLayout
         CFStringRef cfFontName = (CFStringRef) CFDictionaryGetValue (fontDescAttributes, kCTFontNameAttribute);
         // For unknown reasons, CTFontCreateWithFontDescriptor return Lucida Grande as the best
         // match even though there may be a Regular style for the font family we requested
-        if (String::fromCFString (cfFontName) == "LucidaGrande" && font.getTypefaceName() != "Lucida Grande")
+        if (String::fromCFString (cfFontName) == "LucidaGrande" && font.getTypefaceName() != "Lucida Grande" && font.getTypefaceStyle() != "Regular")
         {
             // Failed to find typeface style so try Regular style
             Font regularFont(font);
