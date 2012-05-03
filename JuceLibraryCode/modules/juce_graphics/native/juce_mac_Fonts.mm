@@ -55,6 +55,25 @@ namespace CoreTextTypeLayout
         CTFontRef ctFontRef = CTFontCreateWithFontDescriptor (ctFontDescRef, fontSize, nullptr);
         CFRelease (ctFontDescRef);
 
+        // Check if we failed to find the correct font for the typeface style provided
+        ctFontDescRef = CTFontCopyFontDescriptor (ctFontRef);
+        fontDescAttributes = CTFontDescriptorCopyAttributes (ctFontDescRef);
+        CFRelease (ctFontDescRef);
+        // For unknown reasons, only kCTFontNameAttribute is not null, other attributes are null
+        CFStringRef cfFontName = (CFStringRef) CFDictionaryGetValue (fontDescAttributes, kCTFontNameAttribute);
+        // For unknown reasons, CTFontCreateWithFontDescriptor return Lucida Grande as the best
+        // match even though there may be a Regular style for the font family we requested
+        if (String::fromCFString (cfFontName) == "LucidaGrande" && font.getTypefaceName() != "Lucida Grande")
+        {
+            // Failed to find typeface style so try Regular style
+            Font regularFont(font);
+            regularFont.setTypefaceStyle("Regular");
+            CFRelease (ctFontRef);
+            ctFontRef = createCTFont (regularFont, fontSize, false);
+        }
+        CFRelease (cfFontName);
+        CFRelease (fontDescAttributes);
+		
         if (applyScaleFactor)
         {
             CGFontRef cgFontRef = CTFontCopyGraphicsFont (ctFontRef, nullptr);
