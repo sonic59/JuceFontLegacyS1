@@ -8,11 +8,11 @@
   ==============================================================================
 */
 
-#ifndef __MAINWINDOW_H_257BEBA8__
-#define __MAINWINDOW_H_257BEBA8__
+#ifndef __MAINWINDOW_H_FEB7A666__
+#define __MAINWINDOW_H_FEB7A666__
 
 #include "../JuceLibraryCode/JuceHeader.h"
-
+#include "WindowComponent.h"
 
 //==============================================================================
 class MainAppWindow   : public DocumentWindow
@@ -33,9 +33,10 @@ public:
     */
 
 private:
+    ScopedPointer<WindowComponent> windowComp;
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainAppWindow)
 };
 
 
-#endif  // __MAINWINDOW_H_257BEBA8__
+#endif  // __MAINWINDOW_H_FEB7A666__
